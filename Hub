@@ -78,9 +78,7 @@ end)
 
 Button.MouseButton1Click:Connect(function()
 	Title.Text = "🚀 AutoFarm เริ่มทำงานแล้ว!"
-	getgenv().WebhookURL = "" -- แก้ได้ที่นี่
-	getgenv().AutoFarm = true
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/caomod2077/Script/refs/heads/main/Farm%20Diamond%20v2.lua"))()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/r4mpage4/LuaCom/refs/heads/main/farmchest.gey"))();
 end)
 
 --// Credits small label (bottom-left)
