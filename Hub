@@ -1,0 +1,200 @@
+--// Services
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+--// Create ScreenGui
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "CustomUI"
+ScreenGui.Parent = game:GetService("CoreGui")
+
+--// Main Frame
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 420, 0, 270)
+MainFrame.Position = UDim2.new(0.5, -210, 0.5, -135)
+MainFrame.BackgroundColor3 = Color3.fromRGB(25, 20, 50)
+MainFrame.BorderSizePixel = 0
+MainFrame.BackgroundTransparency = 0.15
+MainFrame.ClipsDescendants = true
+MainFrame.Parent = ScreenGui
+
+local UICorner = Instance.new("UICorner", MainFrame)
+UICorner.CornerRadius = UDim.new(0, 18)
+
+local UIStroke = Instance.new("UIStroke", MainFrame)
+UIStroke.Color = Color3.fromRGB(120, 0, 255)
+UIStroke.Thickness = 2
+
+--// Title
+local Title = Instance.new("TextLabel", MainFrame)
+Title.Text = "⚡ Unique UI ⚡"
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 22
+Title.TextColor3 = Color3.fromRGB(200, 180, 255)
+Title.BackgroundTransparency = 1
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.Position = UDim2.new(0,0,0,6)
+
+--// Welcome
+local Welcome = Instance.new("TextLabel", MainFrame)
+Welcome.Text = "ยินดีต้อนรับ, " .. LocalPlayer.Name .. " 🚀"
+Welcome.Font = Enum.Font.Gotham
+Welcome.TextSize = 18
+Welcome.TextColor3 = Color3.fromRGB(255, 200, 255)
+Welcome.BackgroundTransparency = 1
+Welcome.Size = UDim2.new(1, -20, 0, 28)
+Welcome.Position = UDim2.new(0, 10, 0, 44)
+Welcome.TextXAlignment = Enum.TextXAlignment.Left
+
+-- animate welcome (fade in + slide)
+Welcome.TextTransparency = 1
+Welcome.Position = UDim2.new(0, 30, 0, 54)
+TweenService:Create(Welcome, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {TextTransparency = 0, Position = UDim2.new(0,10,0,44)}):Play()
+
+--// AutoFarm Button
+local Button = Instance.new("TextButton", MainFrame)
+Button.Size = UDim2.new(0, 200, 0, 40)
+Button.Position = UDim2.new(0.5, -100, 0.5, -10)
+Button.Text = "เริ่ม AutoFarm"
+Button.Font = Enum.Font.GothamBold
+Button.TextSize = 18
+Button.TextColor3 = Color3.fromRGB(255,255,255)
+Button.BackgroundColor3 = Color3.fromRGB(60, 0, 120)
+Button.AutoButtonColor = false
+
+local BtnCorner = Instance.new("UICorner", Button)
+BtnCorner.CornerRadius = UDim.new(0,12)
+local BtnStroke = Instance.new("UIStroke", Button)
+BtnStroke.Color = Color3.fromRGB(180, 80, 255)
+BtnStroke.Thickness = 2
+
+Button.MouseEnter:Connect(function()
+	TweenService:Create(Button, TweenInfo.new(0.22), {BackgroundColor3 = Color3.fromRGB(100,20,200)}):Play()
+end)
+Button.MouseLeave:Connect(function()
+	TweenService:Create(Button, TweenInfo.new(0.22), {BackgroundColor3 = Color3.fromRGB(60,0,120)}):Play()
+end)
+
+Button.MouseButton1Click:Connect(function()
+	Title.Text = "🚀 AutoFarm เริ่มทำงานแล้ว!"
+	getgenv().WebhookURL = "" -- แก้ได้ที่นี่
+	getgenv().AutoFarm = true
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/caomod2077/Script/refs/heads/main/Farm%20Diamond%20v2.lua"))()
+end)
+
+--// Credits small label (bottom-left)
+local CreditLabel = Instance.new("TextButton", MainFrame)
+CreditLabel.Size = UDim2.new(0, 180, 0, 28)
+CreditLabel.Position = UDim2.new(0, 12, 1, -40)
+CreditLabel.Text = "Created by galaxy Hub"
+CreditLabel.Font = Enum.Font.Gotham
+CreditLabel.TextSize = 14
+CreditLabel.TextColor3 = Color3.fromRGB(200,200,255)
+CreditLabel.BackgroundTransparency = 1
+CreditLabel.AutoButtonColor = false
+
+-- hover glow effect on credit label
+local creditGlow = Instance.new("UIStroke", CreditLabel)
+creditGlow.Color = Color3.fromRGB(140,120,255)
+creditGlow.Transparency = 0.8
+creditGlow.Thickness = 1
+
+CreditLabel.MouseEnter:Connect(function()
+	TweenService:Create(creditGlow, TweenInfo.new(0.2), {Transparency = 0}):Play()
+end)
+CreditLabel.MouseLeave:Connect(function()
+	TweenService:Create(creditGlow, TweenInfo.new(0.2), {Transparency = 0.8}):Play()
+end)
+
+--// Credits popup frame (hidden by default)
+local CreditsPopup = Instance.new("Frame")
+CreditsPopup.Name = "CreditsPopup"
+CreditsPopup.Size = UDim2.new(0, 340, 0, 160)
+CreditsPopup.Position = UDim2.new(0.5, -170, 0.5, -80)
+CreditsPopup.BackgroundColor3 = Color3.fromRGB(18,16,40)
+CreditsPopup.BorderSizePixel = 0
+CreditsPopup.AnchorPoint = Vector2.new(0.5,0.5)
+CreditsPopup.Visible = false
+CreditsPopup.Parent = ScreenGui
+
+local cpCorner = Instance.new("UICorner", CreditsPopup)
+cpCorner.CornerRadius = UDim.new(0,14)
+local cpStroke = Instance.new("UIStroke", CreditsPopup)
+cpStroke.Color = Color3.fromRGB(110,60,220)
+cpStroke.Thickness = 2
+
+local cpTitle = Instance.new("TextLabel", CreditsPopup)
+cpTitle.Text = "Credits"
+cpTitle.Font = Enum.Font.GothamBold
+cpTitle.TextSize = 20
+cpTitle.TextColor3 = Color3.fromRGB(220,200,255)
+cpTitle.BackgroundTransparency = 1
+cpTitle.Size = UDim2.new(1,0,0,36)
+cpTitle.Position = UDim2.new(0,0,0,8)
+
+local cpBody = Instance.new("TextLabel", CreditsPopup)
+cpBody.Text = "• galaxy Hub — ผู้สร้าง\n• UI design by you (ปรับแต่งได้)\n\nขอบคุณที่ใช้ UI นี้! ✨"
+cpBody.Font = Enum.Font.Gotham
+cpBody.TextSize = 15
+cpBody.TextColor3 = Color3.fromRGB(200,190,255)
+cpBody.BackgroundTransparency = 1
+cpBody.Size = UDim2.new(1, -24, 1, -64)
+cpBody.Position = UDim2.new(0,12,0,44)
+cpBody.TextXAlignment = Enum.TextXAlignment.Left
+cpBody.TextYAlignment = Enum.TextYAlignment.Top
+
+-- close button
+local CloseBtn = Instance.new("TextButton", CreditsPopup)
+CloseBtn.Size = UDim2.new(0, 100, 0, 30)
+CloseBtn.Position = UDim2.new(1, -110, 1, -44)
+CloseBtn.Text = "ปิด"
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.TextSize = 14
+CloseBtn.TextColor3 = Color3.fromRGB(255,255,255)
+CloseBtn.BackgroundColor3 = Color3.fromRGB(70, 10, 150)
+local closeCorner = Instance.new("UICorner", CloseBtn)
+closeCorner.CornerRadius = UDim.new(0,8)
+local closeStroke = Instance.new("UIStroke", CloseBtn)
+closeStroke.Color = Color3.fromRGB(160,100,255)
+closeStroke.Thickness = 1
+
+CloseBtn.MouseEnter:Connect(function()
+	TweenService:Create(CloseBtn, TweenInfo.new(0.18), {BackgroundColor3 = Color3.fromRGB(110,40,210)}):Play()
+end)
+CloseBtn.MouseLeave:Connect(function()
+	TweenService:Create(CloseBtn, TweenInfo.new(0.18), {BackgroundColor3 = Color3.fromRGB(70,10,150)}):Play()
+end)
+
+CloseBtn.MouseButton1Click:Connect(function()
+	TweenService:Create(CreditsPopup, TweenInfo.new(0.28), {Size = UDim2.new(0, 0, 0, 0)}):Play()
+	wait(0.28)
+	CreditsPopup.Visible = false
+	CreditsPopup.Size = UDim2.new(0, 340, 0, 160)
+end)
+
+-- open popup when clicking credit label
+CreditLabel.MouseButton1Click:Connect(function()
+	if not CreditsPopup.Visible then
+		CreditsPopup.Visible = true
+		CreditsPopup.Size = UDim2.new(0, 0, 0, 0)
+		TweenService:Create(CreditsPopup, TweenInfo.new(0.28, Enum.EasingStyle.Back), {Size = UDim2.new(0, 340, 0, 160)}):Play()
+	end
+end)
+
+--// Toggle UI with RightControl
+local Toggle = true
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+	if input.KeyCode == Enum.KeyCode.RightControl and not gameProcessed then
+		Toggle = not Toggle
+		if Toggle then
+			TweenService:Create(MainFrame, TweenInfo.new(0.45, Enum.EasingStyle.Quint), {
+				Size = UDim2.new(0, 420, 0, 270)
+			}):Play()
+		else
+			TweenService:Create(MainFrame, TweenInfo.new(0.45, Enum.EasingStyle.Quint), {
+				Size = UDim2.new(0, 420, 0, 0)
+			}):Play()
+		end
+	end
+end)
